@@ -3,6 +3,11 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# dataset
+/images/
+yamori.bin
+firebase-adminsdk.json
+
 # C extensions
 *.so
 

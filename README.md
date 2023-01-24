@@ -1,1 +1,1 @@
-# Face-Recognition-Desktop
+# Face Recognition Desktop
