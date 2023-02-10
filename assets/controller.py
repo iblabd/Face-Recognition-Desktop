@@ -261,8 +261,9 @@ class EncodeView(Frame):
 
         self.percentage = Label(self, text = None)
 
-        self.start_encode = Button(self, text="Start Encode", command= lambda: self.encode(), width= self.width, background="blue", fg="white", anchor=E, padx=self.width * 0.04).pack()
-        self.stop_encode = Button(self, text="Stop Encode", command= lambda: self.encode(), width= self.width, background="blue", fg="white", anchor=E, padx=self.width * 0.04).pack()
+        self.start_encode = Button(self, text="Start Encode", command= lambda: self.start_encoding(), width= self.width, background="blue", fg="white", anchor=E, padx=self.width * 0.04)
+        self.start_encode.pack()
+        self.stop_encode = Button(self, text="Stop Encode", command= lambda: self.stop_encoding(), width= self.width, background="gray", fg="white", anchor=E, padx=self.width * 0.04)
     
     def open_bin(self):
          # Load existing dataset
@@ -278,8 +279,19 @@ class EncodeView(Frame):
             self.dataset_count.config(text=f"Total dataset in directory: 0")
     
     def start_encoding(self):
-        self.start_encode.config(state = "disable")
-        self.stop_encode.config(state = "normal")
+        self.start_encode.pack_forget()
+        self.stop_encode.pack()
+        self.thread = threading.Thread(target=self.encode)
+        self.thread.start()
+    
+    def stop_encoding(self):
+        self.stop_encode.pack_forget()
+        self.start_encode.pack()
+        self.enc = FALSE
+        self.loadinglabel.pack_forget()
+        self.loadingbar.pack_forget()
+        self.percentage.pack_forget()
+        
 
     def encode(self):
         self.enc = TRUE
@@ -299,7 +311,11 @@ class EncodeView(Frame):
             
     # Skipping already existing dataset
     def create_dataset(self):
+
         for reference_id in self.id:
+            if self.enc == False:
+                continue
+
             if reference_id in self.known_id:
                 self.loadinglabel.config(text = f"{reference_id} has already been encoded, skipping...")
                 self.tasknum += 1
