@@ -386,7 +386,42 @@ class EncodeView(Frame):
         self.loadinglabel.pack_forget()
         self.loadingbar.pack_forget()
         self.percentage.pack_forget()
+        self.stop_encoding()
+
+class DatasetView(Frame):
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent)
+
+        self.controller = controller
+
+        self.width = int(self.winfo_screenwidth())
+        self.height = int(self.winfo_screenheight())
+
+        self.dataset = ttk.Treeview(self, height=self.height)
+        self.dataset['columns'] = ('num', 'nis', 'name')
+
+        self.dataset.column("#0", width=0,  stretch=NO)
+        self.dataset.column("num",anchor=CENTER, width=round(self.width * 0.1))
+        self.dataset.column("nis",anchor=CENTER, width=round(self.width * 0.45))
+        self.dataset.column("name",anchor=CENTER, width=round(self.width * 0.45))
+
+        self.dataset.heading("#0",text="",anchor=CENTER)
+        self.dataset.heading("num",text="Num.",anchor=CENTER)
+        self.dataset.heading("nis",text="NIS",anchor=CENTER)
+        self.dataset.heading("name",text="Name",anchor=CENTER)
         
+        try:
+            with open(os.getenv("DATASET"), "rb") as f:
+                self.data = pickle.load(f)
+        except (FileNotFoundError, EOFError):
+            print("Error: the file does not exist or is empty.")
+            self.data = []
         
-        
+        if len(self.data) > 1:
+            for i, nis, name in zip(range(len(self.data["id"])), self.data["id"], self.data["names"]):
+                self.dataset.insert(parent='', index='end', iid=i, values=(f"{i + 1}", f"{nis}", f"{name}"))
+
+            self.dataset.pack()
+        else:
+            Label(self, text="Dataset is empty!").pack()
         
