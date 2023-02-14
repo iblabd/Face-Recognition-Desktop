@@ -75,5 +75,3 @@ class App(Tk):
 if __name__ == "__main__":
     app = App()
     app.mainloop()
-
-    pyinstaller --onefile --hidden-import cmake --hidden-import dlib --hidden-import face_recognition --hidden-import firebase_admin --hidden-import numpy --hidden-import opencv-python --hidden-import pendulum --hidden-import python-dotenv --hidden-import pyttsx3 --hidden-import termcolor app.py

@@ -1,6 +1,5 @@
 from tkinter import *
 from tkinter import ttk
-from assets.main import Main
 import PIL.Image, PIL.ImageTk
 from datetime import datetime
 import os
@@ -190,7 +189,7 @@ class RecordView(Frame,):
     
     def process_frame(self, face_encodings):
         for face_encoding in face_encodings:
-            self.matches = face_recognition.compare_faces(self.known_face_encodings, face_encoding, tolerance=0.65)
+            self.matches = face_recognition.compare_faces(self.known_face_encodings, face_encoding, tolerance=0.9)
             self.name = "Unknown"
             self.face_distances = face_recognition.face_distance(self.known_face_encodings, face_encoding)
             self.best_match_index = np.argmin(self.face_distances)
