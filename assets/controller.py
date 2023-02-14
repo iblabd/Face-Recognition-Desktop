@@ -401,8 +401,8 @@ class DatasetView(Frame):
 
         self.dataset.column("#0", width=0,  stretch=NO)
         self.dataset.column("num",anchor=CENTER, width=round(self.width * 0.1))
-        self.dataset.column("nis",anchor=CENTER, width=round(self.width * 0.45))
-        self.dataset.column("name",anchor=CENTER, width=round(self.width * 0.45))
+        self.dataset.column("nis",anchor=CENTER, width=round(self.width * 0.2))
+        self.dataset.column("name",anchor=W, width=round(self.width * 0.7))
 
         self.dataset.heading("#0",text="",anchor=CENTER)
         self.dataset.heading("num",text="Num.",anchor=CENTER)
